@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { SessionProvider } from "./context/SessionContext";
+import { SessionProvider } from "@/context/SessionContext";
 
 const Providers = () => {
   return (

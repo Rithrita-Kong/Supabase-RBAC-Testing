@@ -1,12 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import supabase from "../supabase";
-import LoadingPage from "../pages/LoadingPage";
+import { getUserRole } from "@/api/getRole"; // Import the helper
+import supabase from "@/lib/supabase";
+import LoadingPage from "@/pages/LoadingPage";
 import { Session } from "@supabase/supabase-js";
 
 const SessionContext = createContext<{
   session: Session | null;
+  userRole: string | null;
 }>({
   session: null,
+  userRole: null,
 });
 
 export const useSession = () => {
@@ -20,6 +23,7 @@ export const useSession = () => {
 type Props = { children: React.ReactNode };
 export const SessionProvider = ({ children }: Props) => {
   const [session, setSession] = useState<Session | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,10 +37,22 @@ export const SessionProvider = ({ children }: Props) => {
     return () => {
       authStateListener.data.subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, []); // Empty dependency array to only run on mount/unmount
+
+  useEffect(() => {
+    if (session?.user) {
+      const fetchRole = async () => {
+        const role = await getUserRole(session.user.id);
+        setUserRole(role);
+      };
+      fetchRole();
+    } else {
+      setUserRole(null);
+    }
+  }, [session]); // Runs when session changes, not repeatedly
 
   return (
-    <SessionContext.Provider value={{ session }}>
+    <SessionContext.Provider value={{ session, userRole }}>
       {isLoading ? <LoadingPage /> : children}
     </SessionContext.Provider>
   );

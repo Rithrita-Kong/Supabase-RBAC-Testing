@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useSession } from "../context/SessionContext";
+import { useSession } from "@/context/SessionContext";
 
 const ProtectedPage = () => {
-  const { session } = useSession();
+  const { session, userRole } = useSession();
   return (
     <main>
       <Link className="home-link" to="/">
@@ -11,6 +11,7 @@ const ProtectedPage = () => {
       <section className="main-container">
         <h1 className="header-text">This is a Protected Page</h1>
         <p>Current User : {session?.user.email || "None"}</p>
+        <p>Current User : {userRole || "None"}</p>
       </section>
     </main>
   );

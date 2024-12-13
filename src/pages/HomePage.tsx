@@ -1,15 +1,26 @@
 import { Link } from "react-router-dom";
-import supabase from "../supabase";
-import { useSession } from "../context/SessionContext";
+import supabase from "@/lib/supabase";
+import { useSession } from "@/context/SessionContext";
+// import { useQuery } from "@tanstack/react-query";
+// import { fetchUserRole } from "@/api/getRole";
 
 const HomePage = () => {
-  const { session } = useSession();
+  const { session, userRole } = useSession();
+  console.log(session);
+  // const { data: resource } = useQuery({
+  //   queryKey: ["docId", "31eba78f-67d7-4522-b163-918c066f9c20"],
+  //   queryFn: async () =>
+  //     await fetchUserRole("31eba78f-67d7-4522-b163-918c066f9c20"),
+  // });
+  // console.log(resource);
   return (
     <main>
       <section className="main-container">
         <h1 className="header-text">Vite Supabase Auth RBAC Template</h1>
-        <p>Current User : {session?.user.email || "None"}</p>
-        <p>Current User Role : {session?.user.email || "None"}</p>
+        <div className="my-5">
+          <p>Current User : {session?.user.email || "None"}</p>
+          <p>Current User Role : {userRole || "None"}</p>
+        </div>
         {session ? (
           <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
         ) : (
