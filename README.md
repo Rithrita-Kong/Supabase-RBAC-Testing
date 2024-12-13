@@ -6,12 +6,15 @@
 <img src="remove_me.png" width="450">
 </p>
 
+## App Demo: [Vercel Link](https://supabase-role-based-access.vercel.app/)
+
 ## Features
 
 - 🚀 Protected Routes
 - 🚀 Supabase Session Object in Global Context via `useSession`
 - 🚀 User Authentication
 - 🚀 Routing and Route Guards
+- 🚀 Updating User Role
 
 ## Getting Started
 
