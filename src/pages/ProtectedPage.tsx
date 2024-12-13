@@ -12,11 +12,12 @@ import {
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { roleData } from "@/data";
+import { capitalize } from "@/utils";
 
 const ProtectedPage = () => {
   const { session, userRole } = useSession();
-  const [selectedRole, setSelectedRole] = useState(roleData[0]);
   const [loading, setLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(roleData[0]);
 
   const handleRoleChange = async (newRole: string) => {
     if (loading) return; // Prevent multiple clicks while loading
@@ -45,7 +46,7 @@ const ProtectedPage = () => {
       <section className="main-container">
         <h1 className="header-text">This is a Protected Page</h1>
         <p>Current User : {session?.user.email || "None"}</p>
-        <p>Current Role : {userRole || "None"}</p>
+        <p>Current Role : {capitalize(userRole || "None")}</p>
 
         <Listbox value={selectedRole} onChange={setSelectedRole}>
           <Label className="block text-lg text-white mt-5 font-bold">
