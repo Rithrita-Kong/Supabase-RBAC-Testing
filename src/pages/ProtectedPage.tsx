@@ -25,8 +25,6 @@ const ProtectedPage = () => {
     setLoading(true);
 
     try {
-      console.log(newRole);
-
       const { success, error } = await toast.promise(
         updateRole(session?.user.id, newRole.toLowerCase()),
         {

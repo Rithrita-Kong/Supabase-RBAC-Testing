@@ -5,7 +5,6 @@ import { capitalize } from "@/utils";
 
 const HomePage = () => {
   const { session, userRole } = useSession();
-  console.log(session);
 
   return (
     <main>
