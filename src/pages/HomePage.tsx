@@ -19,7 +19,7 @@ const HomePage = () => {
         <h1 className="header-text">Vite Supabase Auth RBAC Template</h1>
         <div className="my-5">
           <p>Current User : {session?.user.email || "None"}</p>
-          <p>Current User Role : {userRole || "None"}</p>
+          <p>Current Role : {userRole || "None"}</p>
         </div>
         {session ? (
           <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
