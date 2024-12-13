@@ -13,6 +13,7 @@ import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { roleData } from "@/data";
 import { capitalize } from "@/utils";
+import { toast } from "react-hot-toast";
 
 const ProtectedPage = () => {
   const { session, userRole } = useSession();
@@ -22,20 +23,32 @@ const ProtectedPage = () => {
   const handleRoleChange = async (newRole: string) => {
     if (loading) return; // Prevent multiple clicks while loading
     setLoading(true);
-    console.log(newRole);
 
-    // Call the updateRole function from the api/roleService
-    const { success, error } = await updateRole(
-      session?.user.id,
-      newRole.toLowerCase()
-    );
+    try {
+      console.log(newRole);
 
-    if (success) {
-      console.log("Role updated successfully");
-    } else {
-      console.error("Error updating role:", error);
+      const { success, error } = await toast.promise(
+        updateRole(session?.user.id, newRole.toLowerCase()),
+        {
+          loading: "Updating role...",
+          success: "Role updated successfully!",
+          error: "Error updating role",
+        }
+      );
+
+      if (success) {
+        console.log("Role updated successfully");
+      } else {
+        // Handle specific error from API response if needed
+        toast.error(`Error updating role: ${error || "Unknown error"}`);
+      }
+    } catch (error) {
+      // Catch unexpected errors
+      console.error("Unexpected error:", error);
+      toast.error("An unexpected error occurred");
+    } finally {
+      setLoading(false); // Reset the loading state
     }
-    setLoading(false);
   };
 
   return (
